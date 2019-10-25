@@ -1,10 +1,10 @@
 {
-    "base_endpoint": "https://api.binance.com",
-    "secret_key": "m5vxq2RyIplV08GptLrBcl1TXYDwhs6N18Hi1H2uwZ3b2BLNEiq92rNNtLXXuLix",
-    "api_key": "biNOlHOOCJAHSfAWLspdoBwCE2v92cdg5oQPHMQIMlwF92Xyurc5HBDRRhbtM98T",
-    "call_worker": {
-        "NONE": 5,
-        "FULL": 5,
-        "HALF": 5
+    "baseEndPoint": "https://api.binance.com",
+    "secretKey": "m5vxq2RyIplV08GptLrBcl1TXYDwhs6N18Hi1H2uwZ3b2BLNEiq92rNNtLXXuLix",
+    "apiKey": "biNOlHOOCJAHSfAWLspdoBwCE2v92cdg5oQPHMQIMlwF92Xyurc5HBDRRhbtM98T",
+    "callWorker": {
+        "none": 5,
+        "full": 5,
+        "half": 5
     }
 }
