@@ -15,7 +15,7 @@ type CallData struct {
 	// Body POST请求的消息体
 	Body string
 	// Data 请求返回的数据
-	Data io.Writer
+	Data *io.PipeWriter
 	// PlatForm 平台：binance,bithumb,okex
 	PlatForm string
 }

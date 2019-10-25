@@ -14,7 +14,7 @@ type APIData interface {
 
 // Fetch 输入一个空API格式，使用RequestCompiler可以获取其对应的请求定义，
 // 使用ExtractData来获取worker传来的数据流，并解析填充进API数据结构中.
-// 建议使用单个goroutine来调用Fetch,发挥其最佳的并发性能
+// 建议使用单个goroutine来调用Fetch,发挥其最佳的并发性能.
 func Fetch(resDat APIData) (APIData, error) {
 	callData, err := resDat.RequestCompiler()
 	if err != nil {

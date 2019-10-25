@@ -2,8 +2,6 @@ package jobs
 
 import (
 	"coindock/info/defs"
-	"fmt"
-	"os"
 )
 
 type client chan *defs.CallData
@@ -18,8 +16,15 @@ func init() {
 	go caller()
 }
 
+var binanceNone = make(chan *defs.CallData)
+
 func caller() {
 	calls := make(map[string]client)
+	// 建立worker
+	for i := 0; i < 5; i++ {
+		go binanceNoneWorker()
+	}
+
 	for {
 		select {
 		case cli := <-Call:
@@ -29,13 +34,14 @@ func caller() {
 			// 之后注册入calls中
 			calls[id] = cli
 			// 将网络任务交给worker
+			binanceNone <- data
 		case result := <-Resp:
 			// 收到worker的结果，传递给调用函数
 			id := result.CallID
 			calls[id] <- result
 		case cli := <-Ok:
 			// 调用函数完成（调用函数指的是binance或bithumb包里发起工作的函数）
-			fmt.Println("Close cli")
+			// fmt.Println("Close cli")
 			close(cli)
 		}
 	}
@@ -43,6 +49,6 @@ func caller() {
 
 func getData(ch <-chan *defs.CallData) *defs.CallData {
 	msg := <-ch
-	fmt.Fprintln(os.Stdout, *msg)
+	// fmt.Fprintln(os.Stdout, *msg)
 	return msg
 }
