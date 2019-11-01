@@ -13,7 +13,7 @@ type CallData struct {
 	// Type 该请求属于Rest API中的哪个级别
 	Type string
 	// Body POST请求的消息体
-	Body string
+	Body io.Reader
 	// Data 请求返回的数据
 	Data *io.PipeWriter
 	// PlatForm 平台：binance,bithumb,okex

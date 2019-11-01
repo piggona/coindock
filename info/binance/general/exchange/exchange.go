@@ -54,7 +54,7 @@ func (t *ExchangeContainer) RequestCompiler(conf ...interface{}) (*defs.CallData
 		Method:   "Get",
 		EndPoint: "/api/v1/exchangeInfo",
 		Type:     "None",
-		Body:     "",
+		Body:     nil,
 		Data:     nil,
 		PlatForm: "binance",
 	}

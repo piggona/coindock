@@ -27,7 +27,7 @@ func (t *TimeContainer) RequestCompiler(conf ...interface{}) (*defs.CallData, er
 		Method:   "Get",
 		EndPoint: "/api/v1/time",
 		Type:     "None",
-		Body:     "",
+		Body:     nil,
 		Data:     nil,
 		PlatForm: "binance",
 	}
