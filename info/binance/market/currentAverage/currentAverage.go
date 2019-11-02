@@ -1,4 +1,4 @@
-package orders
+package currentAverage
 
 import (
 	"coindock/info/defs"
@@ -8,20 +8,19 @@ import (
 	"io"
 )
 
-type OrderContainer struct {
-	Bids [][]string
-	Asks [][]string
+type CurrentAverageContainer struct {
+	Mins  int
+	Price string
 }
 
 type Conf struct {
 	Symbol string
-	Limit  string
 }
 
-func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
+func (r *CurrentAverageContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
 	con, ok := conf.(Conf)
 	if !ok {
-		err := fmt.Errorf("Error occurs in orderBook.RequestCompiler: Incorrect Conf")
+		err := fmt.Errorf("Error occurs in recentTrades.RequestCompiler: Incorrect Conf")
 		return nil, err
 	}
 	endPoint := utils.EncodeQuery(con)
@@ -34,7 +33,7 @@ func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, erro
 	data := &defs.CallData{
 		CallID:   id,
 		Method:   "Get",
-		EndPoint: "/api/v1/depth?" + endPoint,
+		EndPoint: "/api/v3/avgPrice?" + endPoint,
 		Type:     "Half",
 		Body:     nil,
 		Data:     nil,
@@ -44,7 +43,7 @@ func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, erro
 }
 
 // ExtractData 接收io.PipeReader传来的信息
-func (o *OrderContainer) ExtractData(r io.Reader) error {
+func (o *CurrentAverageContainer) ExtractData(r io.Reader) error {
 	if err := json.NewDecoder(r).Decode(o); err != nil {
 		fmt.Errorf("Response Body Decode Failed: %v .\n", err)
 		return err

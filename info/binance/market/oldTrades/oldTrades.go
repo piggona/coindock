@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"net/url"
 )
 
 type OldTradesContainer []recentTrades.SingleTrade
@@ -19,16 +18,12 @@ type Conf struct {
 }
 
 func (r *OldTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	params := url.Values{}
 	con, ok := conf.(Conf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in orderBook.RequestCompiler: Incorrect Conf")
 		return nil, err
 	}
-	params.Set("symbol", con.Symbol)
-	params.Set("limit", con.Limit)
-	params.Set("fromId", con.FromId)
-	endPoint := params.Encode()
+	endPoint := utils.EncodeQuery(con)
 	// 构造CallID,使用uuid算法
 	id, err := utils.NewUUID()
 	if err != nil {

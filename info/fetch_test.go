@@ -2,7 +2,7 @@ package info
 
 import (
 	_ "coindock/config"
-	"coindock/info/binance/market/orders"
+	"coindock/info/binance/market/currentAverage"
 	_ "coindock/info/jobs"
 	"fmt"
 	"sync"
@@ -13,17 +13,28 @@ import (
 // var confs aggregateTrades.Conf = aggregateTrades.Conf{
 // 	Symbol:    "ETHBTC",
 // 	FromId:    "",
-// 	StartTime: "1572588059",
-// 	EndTime:   "1572588059",
-// 	Limit:     "2",
+// 	StartTime: "",
+// 	EndTime:   "",
+// 	Limit:     "",
 // }
 
-var API = &orders.OrderContainer{}
-var confs orders.Conf = orders.Conf{
+var API = &currentAverage.CurrentAverageContainer{}
+var confs currentAverage.Conf = currentAverage.Conf{
 	Symbol: "ETHBTC",
-	Limit:  "10",
 }
-var isDisplay = false
+
+// var API = &recentTrades.RecentTradesContainer{}
+// var confs recentTrades.Conf = recentTrades.Conf{
+// 	Symbol: "ETHBTC",
+// 	Limit:  "2",
+// }
+
+// var API = &orders.OrderContainer{}
+// var confs orders.Conf = orders.Conf{
+// 	Symbol: "ETHBTC",
+// 	Limit:  "10",
+// }
+var isDisplay = true
 
 func TestFetch(t *testing.T) {
 	ch := make(chan struct{})

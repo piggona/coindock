@@ -1,4 +1,4 @@
-package orders
+package kline
 
 import (
 	"coindock/info/defs"
@@ -8,20 +8,42 @@ import (
 	"io"
 )
 
-type OrderContainer struct {
-	Bids [][]string
-	Asks [][]string
-}
+const (
+	explain string = `
+	Kline/Candlestick chart intervals:
+	m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
+	1m
+	3m
+	5m
+	15m
+	30m
+	1h
+	2h
+	4h
+	6h
+	8h
+	12h
+	1d
+	3d
+	1w
+	1M
+	`
+)
+
+type KlineContainer [][]interface{}
 
 type Conf struct {
-	Symbol string
-	Limit  string
+	Symbol    string
+	Interval  string
+	StartTime string
+	EndTime   string
+	Limit     string
 }
 
-func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
+func (a *KlineContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
 	con, ok := conf.(Conf)
 	if !ok {
-		err := fmt.Errorf("Error occurs in orderBook.RequestCompiler: Incorrect Conf")
+		err := fmt.Errorf("Error occurs in AggregateTrades.RequestCompiler: Incorrect Conf")
 		return nil, err
 	}
 	endPoint := utils.EncodeQuery(con)
@@ -34,7 +56,7 @@ func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, erro
 	data := &defs.CallData{
 		CallID:   id,
 		Method:   "Get",
-		EndPoint: "/api/v1/depth?" + endPoint,
+		EndPoint: "/api/v1/klines?" + endPoint,
 		Type:     "Half",
 		Body:     nil,
 		Data:     nil,
@@ -44,7 +66,7 @@ func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, erro
 }
 
 // ExtractData 接收io.PipeReader传来的信息
-func (o *OrderContainer) ExtractData(r io.Reader) error {
+func (o *KlineContainer) ExtractData(r io.Reader) error {
 	if err := json.NewDecoder(r).Decode(o); err != nil {
 		fmt.Errorf("Response Body Decode Failed: %v .\n", err)
 		return err

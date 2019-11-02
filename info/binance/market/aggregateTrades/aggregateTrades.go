@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"net/url"
 )
 
 type AggregateTradesContainer []SingleCompressedTrade
@@ -44,18 +43,12 @@ type Conf struct {
 }
 
 func (a *AggregateTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	params := url.Values{}
 	con, ok := conf.(Conf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in AggregateTrades.RequestCompiler: Incorrect Conf")
 		return nil, err
 	}
-	params.Set("symbol", con.Symbol)
-	params.Set("limit", con.Limit)
-	params.Set("fromId", con.FromId)
-	params.Set("startTime", con.StartTime)
-	params.Set("endTime", con.EndTime)
-	endPoint := params.Encode()
+	endPoint := utils.EncodeQuery(con)
 	// 构造CallID,使用uuid算法
 	id, err := utils.NewUUID()
 	if err != nil {

@@ -3,7 +3,6 @@ package info
 import (
 	"coindock/info/defs"
 	"coindock/info/jobs"
-	"fmt"
 	"io"
 )
 
@@ -34,6 +33,5 @@ func Fetch(resDat APIData, conf interface{}) (APIData, error) {
 		return nil, err
 	}
 	defer func() { jobs.Ok <- ch }()
-	fmt.Printf("!!debug:%v", resDat)
 	return resDat, nil
 }
