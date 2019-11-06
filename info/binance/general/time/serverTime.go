@@ -15,7 +15,7 @@ type TimeContainer struct {
 }
 
 // RequestCompiler 构造CallData
-func (t *TimeContainer) RequestCompiler(conf ...interface{}) (*defs.CallData, error) {
+func (t *TimeContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
 	// 构造CallID,使用uuid算法
 	id, err := utils.NewUUID()
 	if err != nil {

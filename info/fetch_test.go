@@ -2,26 +2,36 @@ package info
 
 import (
 	_ "coindock/config"
-	"coindock/info/binance/market/currentAverage"
+	"coindock/info/binance/account"
 	_ "coindock/info/jobs"
 	"fmt"
 	"sync"
 	"testing"
 )
 
-// var API = &aggregateTrades.AggregateTradesContainer{}
-// var confs aggregateTrades.Conf = aggregateTrades.Conf{
-// 	Symbol:    "ETHBTC",
-// 	FromId:    "",
-// 	StartTime: "",
-// 	EndTime:   "",
-// 	Limit:     "",
+// var API = &currentAverage.CurrentAverageContainer{}
+// var confs currentAverage.Conf = currentAverage.Conf{
+// 	Symbol: "ETHBTC",
 // }
 
-var API = &currentAverage.CurrentAverageContainer{}
-var confs currentAverage.Conf = currentAverage.Conf{
-	Symbol: "ETHBTC",
+var API = &account.NewOrderContainer{}
+var confs account.Conf = account.Conf{
+	Symbol:      "ETHBTC",
+	Side:        "BUY",
+	Type:        "LIMIT",
+	TimeInForce: "GTC",
+	Quantity:    "5.0",
+	Price:       "0.02",
 }
+
+// var API = &time.TimeContainer{}
+// var confs account.Conf = account.Conf{
+// 	Symbol:      "ETHBTC",
+// 	Side:        "BUY",
+// 	Type:        "LIMIT",
+// 	TimeInForce: "GTC",
+// 	Quantity:    "10.0",
+// }
 
 // var API = &recentTrades.RecentTradesContainer{}
 // var confs recentTrades.Conf = recentTrades.Conf{

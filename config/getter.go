@@ -12,6 +12,8 @@ type BinanceConf struct {
 	SecretKey    string            `json:"secretKey"`
 	APIKey       string            `json:"apiKey"`
 	CallWorker   BinanceWorkerConf `json:"callWorker"`
+	RecvWindow   int               `json:"recvWindow"`
+	TimeOffset   int               `json:"timeOffset"`
 }
 
 // BinanceWorkerConf binance worker amount configuration

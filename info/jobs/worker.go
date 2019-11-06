@@ -2,8 +2,10 @@ package jobs
 
 import (
 	"coindock/config"
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -60,14 +62,6 @@ func binanceHalfWorker() {
 				fmt.Errorf("Error occurs in binanceNonWorker: %v\n", err)
 				return
 			}
-			// data, err := ioutil.ReadAll(resp.Body)
-			// var f interface{}
-			// err = json.Unmarshal(data, &f)
-			// fmt.Printf("!!debug:%v\n", f)
-			// if err != nil {
-			// 	fmt.Errorf("Error occurs in binanceNonWorker: %v\n", err)
-			// 	return
-			// }
 		case "Post":
 			body := call.Body
 			resp, err = binanceClient.PostBinance(urlstr, body)
@@ -103,6 +97,14 @@ func binanceFullWorker() {
 			resp, err = binanceClient.PostBinance(urlstr, body)
 			if err != nil {
 				fmt.Errorf("Error occurs in binanceNonWorker: %v\n", err)
+			}
+			data, err := ioutil.ReadAll(resp.Body)
+			var f interface{}
+			err = json.Unmarshal(data, &f)
+			fmt.Printf("!!debug:%v\n", f)
+			if err != nil {
+				fmt.Errorf("Error occurs in binanceNonWorker: %v\n", err)
+				return
 			}
 			break
 		}
