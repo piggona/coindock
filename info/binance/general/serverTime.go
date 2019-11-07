@@ -1,4 +1,4 @@
-package time
+package general
 
 import (
 	"coindock/info/utils"

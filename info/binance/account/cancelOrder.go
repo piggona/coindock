@@ -8,18 +8,11 @@ import (
 	"io"
 )
 
-type OrderDetail struct {
-	Price           string
-	Qty             string
-	Commission      string
-	CommissionAsset string
-}
-
-type NewOrderContainer struct {
+type CancelOrderContainer struct {
 	Symbol              string
 	OrderId             int
+	OrderListId         int
 	ClientOrderId       string
-	TransactTime        int64
 	Price               string
 	OrigQty             string
 	ExecuteQty          string
@@ -28,26 +21,24 @@ type NewOrderContainer struct {
 	TimeInForce         string
 	Type                string
 	Side                string
-	Fills               []OrderDetail
+	StopPrice           string
+	IceBergQty          string
+	time                int64
+	updateTime          int64
+	isWorking           bool
 }
 
-type NewOrderConf struct {
-	Symbol           string `json:"symbol"`
-	Side             string `json:"side"`
-	Type             string `json:"type"`
-	TimeInForce      string `json:"timeInForce"`
-	Quantity         string `json:"quantity"`
-	Price            string `json:"price"`
-	NewClientOrderId string `json:"newClientOrderId"`
-	StopPrice        string `json:"stopPrice"`
-	IcebergQty       string `json:"icebergQty"`
-	NewOrderRespType string `json:"newOrderRespType"`
-	RecvWindow       string `json:"recvWindow"`
-	TimeStamp        string `json:"timestamp"`
+type CancelOrderConf struct {
+	Symbol            string `json:"symbol"`
+	OrderId           string `json:"orderId"`
+	OrigClientOrderId string `json:"origClientOrderId"`
+	NewClientOrderId  string `json:"newClientOrderId"`
+	RecvWindow        string `json:"recvWindow"`
+	TimeStamp         string `json:"timestamp"`
 }
 
-func (o *NewOrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	con, ok := conf.(NewOrderConf)
+func (o *CancelOrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
+	con, ok := conf.(CancelOrderConf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in RequestCompiler: input is not in configuration format")
 		return nil, err
@@ -65,7 +56,7 @@ func (o *NewOrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, e
 	data := &defs.CallData{
 		CallID:   id,
 		Method:   "Post",
-		EndPoint: "/api/v3/order/test",
+		EndPoint: "/api/v3/order/",
 		Type:     "Full",
 		Body:     body,
 		Data:     nil,
@@ -75,7 +66,7 @@ func (o *NewOrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, e
 }
 
 // ExtractData 接收io.PipeReader传来的信息
-func (o *NewOrderContainer) ExtractData(r io.Reader) error {
+func (o *CancelOrderContainer) ExtractData(r io.Reader) error {
 	if err := json.NewDecoder(r).Decode(o); err != nil {
 		fmt.Errorf("Response Body Decode Failed: %v .\n", err)
 		return err

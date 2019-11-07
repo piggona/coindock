@@ -1,4 +1,4 @@
-package currentAverage
+package market
 
 import (
 	"coindock/info/defs"
@@ -13,12 +13,12 @@ type CurrentAverageContainer struct {
 	Price string
 }
 
-type Conf struct {
+type CurrentAverageConf struct {
 	Symbol string
 }
 
 func (r *CurrentAverageContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	con, ok := conf.(Conf)
+	con, ok := conf.(CurrentAverageConf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in recentTrades.RequestCompiler: Incorrect Conf")
 		return nil, err

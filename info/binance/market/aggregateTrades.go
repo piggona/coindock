@@ -1,4 +1,4 @@
-package aggregateTrades
+package market
 
 import (
 	"coindock/info/defs"
@@ -34,7 +34,7 @@ type SingleCompressedTrade struct {
 //   }
 // ]
 
-type Conf struct {
+type AggregateTradesConf struct {
 	Symbol    string
 	Limit     string
 	FromId    string
@@ -43,7 +43,7 @@ type Conf struct {
 }
 
 func (a *AggregateTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	con, ok := conf.(Conf)
+	con, ok := conf.(AggregateTradesConf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in AggregateTrades.RequestCompiler: Incorrect Conf")
 		return nil, err

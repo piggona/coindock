@@ -1,4 +1,4 @@
-package recentTrades
+package market
 
 import (
 	"coindock/info/defs"
@@ -20,13 +20,13 @@ type SingleTrade struct {
 
 type RecentTradesContainer []SingleTrade
 
-type Conf struct {
+type RecentTradesConf struct {
 	Symbol string
 	Limit  string
 }
 
 func (r *RecentTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	con, ok := conf.(Conf)
+	con, ok := conf.(RecentTradesConf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in recentTrades.RequestCompiler: Incorrect Conf")
 		return nil, err

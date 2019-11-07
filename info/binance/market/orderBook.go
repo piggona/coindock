@@ -1,7 +1,6 @@
-package oldTrades
+package market
 
 import (
-	"coindock/info/binance/market/recentTrades"
 	"coindock/info/defs"
 	"coindock/info/utils"
 	"encoding/json"
@@ -9,16 +8,18 @@ import (
 	"io"
 )
 
-type OldTradesContainer []recentTrades.SingleTrade
-
-type Conf struct {
-	Symbol string
-	Limit  string
-	FromId string
+type OrderContainer struct {
+	Bids [][]string
+	Asks [][]string
 }
 
-func (r *OldTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	con, ok := conf.(Conf)
+type OrderConf struct {
+	Symbol string
+	Limit  string
+}
+
+func (o *OrderContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
+	con, ok := conf.(OrderConf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in orderBook.RequestCompiler: Incorrect Conf")
 		return nil, err
@@ -33,7 +34,7 @@ func (r *OldTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, 
 	data := &defs.CallData{
 		CallID:   id,
 		Method:   "Get",
-		EndPoint: "/api/v1/historicalTrades?" + endPoint,
+		EndPoint: "/api/v1/depth?" + endPoint,
 		Type:     "Half",
 		Body:     nil,
 		Data:     nil,
@@ -43,7 +44,7 @@ func (r *OldTradesContainer) RequestCompiler(conf interface{}) (*defs.CallData, 
 }
 
 // ExtractData 接收io.PipeReader传来的信息
-func (o *OldTradesContainer) ExtractData(r io.Reader) error {
+func (o *OrderContainer) ExtractData(r io.Reader) error {
 	if err := json.NewDecoder(r).Decode(o); err != nil {
 		fmt.Errorf("Response Body Decode Failed: %v .\n", err)
 		return err

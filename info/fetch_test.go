@@ -9,20 +9,13 @@ import (
 	"testing"
 )
 
-// var API = &currentAverage.CurrentAverageContainer{}
-// var confs currentAverage.Conf = currentAverage.Conf{
+// var API = &market.CurrentAverageContainer{}
+// var confs market.CurrentAverageConf = market.CurrentAverageConf{
 // 	Symbol: "ETHBTC",
 // }
 
-var API = &account.NewOrderContainer{}
-var confs account.Conf = account.Conf{
-	Symbol:      "ETHBTC",
-	Side:        "BUY",
-	Type:        "LIMIT",
-	TimeInForce: "GTC",
-	Quantity:    "5.0",
-	Price:       "0.02",
-}
+var API = &account.InformationContainer{}
+var confs account.InformationConf = account.InformationConf{}
 
 // var API = &time.TimeContainer{}
 // var confs account.Conf = account.Conf{

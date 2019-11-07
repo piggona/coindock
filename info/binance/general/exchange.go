@@ -1,4 +1,4 @@
-package exchange
+package general
 
 import (
 	"coindock/info/defs"

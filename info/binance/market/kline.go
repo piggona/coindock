@@ -1,4 +1,4 @@
-package kline
+package market
 
 import (
 	"coindock/info/defs"
@@ -32,7 +32,7 @@ const (
 
 type KlineContainer [][]interface{}
 
-type Conf struct {
+type KlineConf struct {
 	Symbol    string
 	Interval  string
 	StartTime string
@@ -41,7 +41,7 @@ type Conf struct {
 }
 
 func (a *KlineContainer) RequestCompiler(conf interface{}) (*defs.CallData, error) {
-	con, ok := conf.(Conf)
+	con, ok := conf.(KlineConf)
 	if !ok {
 		err := fmt.Errorf("Error occurs in AggregateTrades.RequestCompiler: Incorrect Conf")
 		return nil, err
